@@ -1,0 +1,24 @@
+[project]
+name = 'micromodel'
+version = '0.0.0'
+authors = [
+  { name = 'João Gabriel Santos', email = 'joaosan177@gmail.com' }
+]
+description = 'todo'
+readme = 'README.md'
+requires-python = '>=3.11'
+classifiers = [
+  'Programming Language :: Python :: 3',
+  'License :: OSI Approved :: MIT License',
+  'Operating System :: OS Independent'
+]
+
+[project.urls]
+'Homepage' = 'https://github.com/capsulbrasil/micromodel'
+
+[tool.setuptools]
+packages = [
+  'micromodel'
+]
+
+package-dir = { '' = 'src' }
