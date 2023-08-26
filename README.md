@@ -31,7 +31,7 @@ Animal = typing.TypedDict('Animal', {
 
 # even another TypedDicts can be used!
 Person = typing.TypedDict('Person', {
-    'name': str,
+    'name': typing.NotRequired[str | None],
     'age': int,
     'animal': Animal
 })
@@ -40,13 +40,14 @@ m = model(Person, {
     'Animal': Animal
 })
 
+# hooks can be implemented using monkeypatching
+# setting default values also can be achieved this way
 old_validate = m.validate
 def new_validate(target: Person):
     new = target.copy()
-    new['name'] = new['name'].capitalize()
+    new['name'] = new.get('name', 'unknown')
     return validate(Person, typing.cast(typing.Any, new))
 
-# hooks can be implemented using monkeypatching
 m.validate = new_validate
 
 result = m.validate({
@@ -72,6 +73,11 @@ result = m.validate({
 }
 """
 print(result)
+
+"""
+{}
+"""
+print(m.cast({}))
 ```
 
 ## License
