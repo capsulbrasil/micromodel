@@ -38,5 +38,5 @@ jobs:
         run: |
           pipenv run python -m unittest tests/*.py
         env:
-          MONGO_HOST: localhost
-          MONGO_PORT: 27017
+          MONGODB_HOST: localhost
+          MONGODB_PORT: 27017
