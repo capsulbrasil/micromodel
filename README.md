@@ -18,7 +18,7 @@ We then decided to make this validation in-loco using a more vanilla approach wi
 
 ```python
 import typing
-from micromodel import model
+from micromodel import model, ValidationOptions
 
 Animal = typing.TypedDict('Animal', {
     'name': str,
@@ -43,10 +43,10 @@ m = model(Person, {
 # hooks can be implemented using monkeypatching
 # setting default values also can be achieved this way
 old_validate = m.validate
-def new_validate(target: Person):
+def new_validate(target: Person, options: ValidationOptions = {}):
     new = target.copy()
     new['name'] = new.get('name', 'unknown')
-    return validate(Person, typing.cast(typing.Any, new))
+    return old_validate(new, options)
 
 m.validate = new_validate
 
