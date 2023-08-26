@@ -14,9 +14,9 @@ jobs:
           - 3.11
     services:
       redis:
-        image: redis
+        image: mongo
         ports:
-          - 6379:6379
+          - 27017:27017
 
     steps:
       - uses: actions/checkout@v3
@@ -38,5 +38,5 @@ jobs:
         run: |
           pipenv run python -m unittest tests/*.py
         env:
-          REDIS_HOST: localhost
-          REDIS_PORT: 6379
+          MONGO_HOST: localhost
+          MONGO_PORT: 27017

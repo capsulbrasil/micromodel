@@ -1,6 +1,6 @@
 # Micromodel
 
-Static and runtime dictionary validation.
+Static and runtime dictionary validation (with MongoDB support).
 
 ## Install
 
@@ -14,7 +14,7 @@ We had a HUGE Python code base which was using `pydantic` to provide a validatio
 
 We then decided to make this validation in-loco using a more vanilla approach with only `TypedDict`s. Now our dictionaries containing MongoDB documents are consistently dicts that match with the static typing.
 
-## Usage
+## Usage (validation only)
 
 ```python
 import typing
@@ -78,6 +78,32 @@ print(result)
 {}
 """
 print(m.cast({}))
+```
+
+## Usage (with MongoDB)
+
+```python
+import os
+import typing
+from micromodel import model
+from pymongo import MongoClient
+
+db = MongoClient(os.getenv('MONGODB_URI')).get_default_database()
+
+Animal = typing.TypedDict('Animal', {
+    'name': str,
+    'specie': list[typing.Literal[
+        'dog',
+        'cat',
+        'bird'
+    ]]
+})
+
+m = model(Animal, coll=db['animals'])
+m.insert_one({
+    'name': 'thor',
+    'specie': 'dog'
+})
 ```
 
 ## License
