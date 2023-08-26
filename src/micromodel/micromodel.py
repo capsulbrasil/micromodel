@@ -13,7 +13,7 @@ class Model(typing.Generic[T]):
         self.model_type = model_type
         self.ct = ct
 
-    def cast(self, target: T): return target
+    def cast(self, target: T | dict[typing.Never, typing.Never]): return typing.cast(T, target)
     def validate(self, target: T, options: ValidationOptions = {}): return validate(self.model_type, typing.cast(typing.Any, target), options, self.ct)
 
 def raise_missing_key(k: int | str):
