@@ -8,12 +8,6 @@ Static and runtime dictionary validation (with MongoDB support).
 $ pip install micromodel
 ```
 
-## Why
-
-We had a HUGE Python code base which was using `pydantic` to provide a validation layer for MongoDB operations. The code was all messy but it worked fine, until we decided to switch the type checker config from "basic" to "strict", then over a thousand of dictionary-related errors popped up, not to mention the annoying conversions from `dict` to classes that were going on on every validation and that should be checked everytime.
-
-We then decided to make this validation in-loco using a more vanilla approach with only `TypedDict`s. Now our dictionaries containing MongoDB documents are consistently dicts that match with the static typing.
-
 ## Usage (validation only)
 
 ```python
