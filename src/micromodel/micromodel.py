@@ -21,7 +21,8 @@ class Model(typing.Generic[T]):
         if coll:
             self.coll = coll
 
-    def cast(self, target: T | dict[str, typing.Any]): return typing.cast(T, target)
+    def cast(self, target: T | typing.Any): return typing.cast(T, target)
+    def strict_cast(self, target: T): return target
     def validate(self, target: T, options: ValidationOptions = {}): return validate(self.model_type, typing.cast(typing.Any, target), options, self.ct)
 
     def find(self, *args: typing.Any, **kwargs: typing.Any):
