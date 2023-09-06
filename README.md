@@ -52,7 +52,6 @@ result = m.validate({
 if valid := m.is_valid(result):
     print('dictionary is valid')
 
-
 # same as typing.cast(Model[T], {})
 print(m.cast({}))
 ```
