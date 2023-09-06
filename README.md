@@ -8,7 +8,7 @@ Static and runtime dictionary validation.
 $ pip install micromodel
 ```
 
-## Usage (validation only)
+## Usage
 
 ```python
 import typing
