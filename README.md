@@ -1,6 +1,6 @@
 # Micromodel
 
-Static and runtime dictionary validation (with MongoDB support).
+Static and runtime dictionary validation.
 
 ## Install
 
@@ -23,7 +23,7 @@ Animal = typing.TypedDict('Animal', {
     ]]
 })
 
-# even another TypedDicts can be used!
+# another TypedDicts can be nested
 Person = typing.TypedDict('Person', {
     'name': typing.NotRequired[str | None],
     'age': int,
@@ -34,16 +34,8 @@ m = model(Person, {
     'Animal': Animal
 })
 
-# hooks can be implemented using monkeypatching
-# setting default values also can be achieved this way
-old_validate = m.validate
-def new_validate(target: Person, options: ValidationOptions = {}):
-    new = target.copy()
-    new['name'] = new.get('name', 'unknown')
-    return old_validate(new, options)
-
-m.validate = new_validate
-
+# the validate method will return the input as it is narrowed as the model type
+# or raise if it is invalid
 result = m.validate({
     'name': 'joao',
     'animal': {
@@ -55,49 +47,14 @@ result = m.validate({
     }
 })
 
-"""
-{
-  "name": "Joao",
-  "animal": {
-    "name": "thor",
-    "specie": [
-      "dog"
-    ]
-  }
-}
-"""
-print(result)
+# the is_valid method will return the input object narrowed as the model type or
+# False otherwise
+if valid := m.is_valid(result):
+    print('dictionary is valid')
 
-"""
-{}
-"""
+
+# same as typing.cast(Model[T], {})
 print(m.cast({}))
-```
-
-## Usage (with MongoDB)
-
-```python
-import os
-import typing
-from micromodel import model
-from pymongo import MongoClient
-
-db = MongoClient(os.getenv('MONGODB_URI')).get_default_database()
-
-Animal = typing.TypedDict('Animal', {
-    'name': str,
-    'specie': list[typing.Literal[
-        'dog',
-        'cat',
-        'bird'
-    ]]
-})
-
-m = model(Animal, coll=db['animals'])
-m.insert_one({
-    'name': 'thor',
-    'specie': 'dog'
-})
 ```
 
 ## License
