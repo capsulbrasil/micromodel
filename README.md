@@ -1,6 +1,6 @@
 # Micromodel
 
-Static and runtime dictionary validation.
+Static and runtime dictionary validation (yet another).
 
 ## Install
 
